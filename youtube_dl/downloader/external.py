@@ -30,7 +30,7 @@ from ..utils import (
 
 
 class ExternalFD(FileDownloader):
-    def real_download(self, filename, info_dict):
+    def real_download(self, filename, info_dict, id=None):
         self.report_destination(filename)
         tmpfilename = self.temp_name(filename)
         self._cookies_tempfile = None
@@ -56,6 +56,7 @@ class ExternalFD(FileDownloader):
 
         if retval == 0:
             status = {
+                'id': id,
                 'filename': filename,
                 'status': 'finished',
                 'elapsed': time.time() - started,

@@ -12,9 +12,10 @@ from ..utils import (
 class VOEIE(InfoExtractor):
     IE_NAME = 'voe'
     IE_DESC = 'VOE.SX'
-    _VALID_URL = r'https?://voe\.sx/(e/)?(?P<id>[a-z0-9]+)'
+    # _VALID_URL = r'https?://voe\.sx/(e/)?(?P<id>[a-z0-9]+)'
+    _VALID_URL = r'https?://.+/(e/)?(?P<id>[a-z0-9]+)'
     _TEST = {
-        'url': 'https://voe.sx/e/ng7ja5n5n2y8',
+        'url': 'https://crownmakermacaronicism.com/e/ng7ja5n5n2y8',
         'info_dict': {
             'id': 'ng7ja5n5n2y8',
             'title': 'md5:a86687fb962742f04652aee19ad34e06',
@@ -22,12 +23,16 @@ class VOEIE(InfoExtractor):
             'ext': 'm3u8',
         },
     }
+    @classmethod
+    def suitable(cls, url):
+        print(f'suitable url: {url}')
+        return True
 
     def _real_extract(self, url):
         video_id = self._match_id(url)
 
         webpage = self._download_webpage(
-            'https://voe.sx/e/%s' % video_id, video_id)
+            url, video_id)
 
         sources = self._parse_json(
             self._search_regex(r'\bsources\s*=\s*(\{[^}]+\})', webpage, 'sources'),

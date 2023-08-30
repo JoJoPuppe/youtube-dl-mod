@@ -816,7 +816,7 @@ class YoutubeDL(object):
             info_dict.setdefault(key, value)
 
     def extract_info(self, url, download=True, ie_key=None, extra_info={},
-                     process=True, force_generic_extractor=False):
+                     process=True, force_extractor=False, force_generic_extractor=False):
         """
         Return a list with a dictionary for each video extracted.
 
@@ -831,6 +831,9 @@ class YoutubeDL(object):
             must be True for download to work.
         force_generic_extractor -- force using the generic extractor
         """
+
+        # if not ie_key and force_extractor:
+        #     ie_key = 'VOE'
 
         if not ie_key and force_generic_extractor:
             ie_key = 'Generic'
@@ -2216,7 +2219,9 @@ class YoutubeDL(object):
             try:
                 # It also downloads the videos
                 res = self.extract_info(
-                    url, force_generic_extractor=self.params.get('force_generic_extractor', False))
+                    url,
+                    force_extractor=self.params.get('force_extractor', False),
+                    force_generic_extractor=self.params.get('force_generic_extractor', False))
             except UnavailableVideoError:
                 self.report_error('unable to download video')
             except MaxDownloadsReached:
